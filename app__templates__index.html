@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+<!-- inherit from base.html to take care of the general page structure -->
+
+{% block content %}
+<body> 
+    <header class="header-image">
+        <div class="headline">
+            <div class="container">
+                <h2> <strong> Start Surfing Your Best Price! </strong> </h2>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {%if current_user.name%}
+                    <h3>Welcome to XFinder, {{current_user.name}}</h3>
+                {%else%}
+                    <h3>Welcome to XFinder</h3>
+                {%endif%}
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <form action="search" method="post" class="form-group">
+                <div class="row">
+                <div class="col-xs-12 text-center">
+                {{ form.csrf }}
+                Find:
+                {{ form.amount }}
+                {% for error in form.amount.errors %}
+                    <span style="color: red;">Please enter a valid number!</span>
+                {% endfor %}
+                    <label class="dropdown-inline">
+                        {{form.fromCurrency}}
+                    </label>
+                    &nbsp;to&nbsp;
+                    <label class="dropdown-inline">
+                        {{form.toCurrency}}
+                    </label>
+                    </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <button type="submit" value="Search" class="btn btn-primary btn-lg">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+        </form>
+    </div>
+</body>
+{% endblock %}
