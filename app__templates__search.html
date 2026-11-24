@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+<!-- inherit from base.html to take care of the general page structure -->
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <!-- Example response: [[0, 50, 50, 'BUDDY STORE', 4.0, '2017-07-08 09:04:35', 'HKD', 'USD', 0.8]]  <br> -->
+        <div class = "row">
+            <div class = "col-md-9">
+            <div class = "col-md-3">
+            <div class = "well-custom">
+                    <font color="white" size = "1">
+                    <b><span class="pull-right">{{fromCurrency}} to {{toCurrency}}: {{baseline}}</span></b>
+                    <br>
+                    </font>
+                <font color = #bebebe>
+                <span class="pull-right">Retrieved from European Central Bank</span><br>
+                <span class="pull-right">Updated daily 3PM CET</span><br>
+                </font>
+            </div>
+            </div>
+            </div>
+        </div>
+
+        <hr>
+        {%if (filtered_all_rows|length > 0) or (filtered_user_rows|length > 0) %}
+        <h2>Your results with rates entered by stores, sorted by last update:</h4>
+        {% for row in filtered_all_rows %}
+        	<script>console.log('{{row}}')</script>
+            <div class="row">
+                <div class="col-md-9">
+                    <a href="/store/{{row[0]}}"><b>{{row[3]}}</b></a>
+                    <br>
+                	<img src={{row[8]}} height="25%" width="25%"><br>
+                    <font color = #ffcc00>
+                        {% for i in range(5)%}
+                          {% if loop.index <= row[4]%}
+                              <span class="glyphicon glyphicon-star"></span>
+                          {% else %}
+                              <span class="glyphicon glyphicon-star-empty"></span>
+                          {% endif %}
+                        {% endfor %}
+                    </font>
+                    <p>{{row[-1]}}<br>
+                        Opening hour: {{row[7]}}
+                </div>
+                <div class = "col-md-3">
+                    <span class = "red">
+                        <b><span class="pull-right">{{row[12]}}&nbsp;{{row[13]}}</span></b>
+                        <br>
+                    </span>
+                    <span class="pull-right">Last updated:&nbsp;{{row[10]}}</span>
+                    <br>
+                    <div class="text-right">
+                        <a href="https://goo.gl/forms/81y4N29ZuaDvBmtc2" class="btn btn-success">Leave a Review</a>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        {% endfor %}
+        <h2>Your results with rates entered by users, sorted by last update:</h4>
+        {% for row in filtered_user_rows %}
+            <script>console.log('{{row}}')</script>
+            <div class="row">
+                <div class="col-md-9">
+                    <a href="/store/{{row[0]}}"><b>{{row[3]}}</b></a>
+                    <br>
+                    <img src={{row[8]}} height="25%" width="25%"><br>
+                    <font color = #ffcc00>
+                        {% for i in range(5)%}
+                          {% if loop.index <= row[4]%}
+                              <span class="glyphicon glyphicon-star"></span>
+                          {% else %}
+                              <span class="glyphicon glyphicon-star-empty"></span>
+                          {% endif %}
+                        {% endfor %}
+                    </font>
+                    <p>{{row[-1]}}<br>
+                        Opening hour: {{row[7]}}
+                </div>
+                <div class = "col-md-3">
+                    <span class = "red">
+                        <b><span class="pull-right">{{row[12]}}&nbsp;{{row[13]}}</span></b>
+                        <br>
+                    </span>
+                    <span class="pull-right">Submitted:&nbsp;{{row[10]}}</span>
+                    <br>
+                    <div class="text-right">
+                        <a href="https://goo.gl/forms/81y4N29ZuaDvBmtc2" class="btn btn-success">Leave a Review</a>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+        {% endfor %}
+
+        {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    There is no store available!
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+            <script>
+
+          function initMap() {
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 10,
+              center: {lat: 22.396, lng: 114.143}
+            });
+
+            // Create an array of alphabetical characters used to label the markers.
+            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            // Add some markers to the map.
+            // Note: The code uses the JavaScript Array.prototype.map() method to
+            // create an array of markers based on a given "locations" array.
+            // The map() method here has nothing to do with the Google Maps API.
+            var markers = locations.map(function(location, i) {
+              return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+              });
+            });
+
+            // Add a marker clusterer to manage the markers.
+            var markerCluster = new MarkerClusterer(map, markers,
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+          }
+          var locations = [
+            {lat: 22.447218, lng: 114.039856},
+            {lat: 22.368503, lng: 114.128776},
+            {lat: 22.384059, lng: 114.200187},
+            {lat: 22.338338, lng: 114.147316},
+            {lat: 22.318887, lng: 114.176258},
+          ]
+        </script>
+        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXGAXaCns4Ztw_3cRFROKPdi4SypSjLT0&callback=initMap">
+        </script>
+        <div id="map" style="left: 5%"></div>
+{% endblock %}

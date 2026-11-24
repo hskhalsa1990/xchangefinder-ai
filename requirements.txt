@@ -1,0 +1,33 @@
+# Core Flask (compatible versions)
+Flask==1.1.4
+Flask-Bootstrap==3.3.7.1
+Flask-Login==0.5.0
+Flask-WTF==0.14.3
+WTForms==2.3.3
+Werkzeug==1.0.1
+Jinja2==2.11.3
+MarkupSafe==1.1.1
+itsdangerous==1.1.0
+
+# Currency & HTTP
+forex-python==1.8
+requests==2.27.1
+certifi
+chardet
+idna
+urllib3
+
+# Other
+simplejson
+dominate
+visitor
+gunicorn
+
+# Jupyter + Analysis + Interactive charts + Dashboard
+jupyter
+pandas
+matplotlib
+seaborn
+plotly
+nbformat
+streamlit
